@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">成标计算器</string>
+    <string name="backup">返回</string>
+    <string name="setting">设置</string>
+    <string name="delete">删除</string>
+    <string name="nav_header_email">1519269558@qq.com</string>
+    <string name="alipay">https://mobilecodec.alipay.com/client_download.htm?qrcode=a6x076306bxhk8outhwdr67</string>
+    <string name="nav_header_username">梦龙</string>
+    <string name="about">关于</string>
+    <string name="donate">捐赠</string>
+    <string name="qq_number">1519269558</string>
+    <string name="version">版本1.0</string>
+    <string name="check_update">检查更新</string>
+
+    <integer-array name="loading">
+
+    </integer-array>
+</resources>

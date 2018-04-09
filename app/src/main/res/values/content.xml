@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--描述-->
+    <string-array name="description">
+
+    <item>
+    1.安装部位:室内                      \n
+    2.介质:燃气                        \n
+    3.规格、压力等级:DN15                 \n
+    4.连接形式:螺纹连接                    \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验      \n
+    </item>
+        <item>
+    1.安装部位:室内                                      \n
+    2.介质:燃气                                        \n
+    3.规格、压力等级:DN20                                 \n
+    4.连接形式:螺纹连接                                    \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验                      \n
+    </item>
+        <item>
+    1.安装部位:室内                             \n
+    2.介质:燃气                               \n
+    3.规格、压力等级:DN25                        \n
+    4.连接形式:螺纹连接                           \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验             \n
+    </item>
+        <item>
+    1.安装部位:室内                              \n
+    2.介质:燃气                                \n
+    3.规格、压力等级:DN32                         \n
+    4.连接形式:焊接                              \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验              \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                        \n
+    </item>
+        <item>
+    1.安装部位:室内                                \n
+    2.介质:燃气                                  \n
+    3.规格、压力等级:DN40                           \n
+    4.连接形式:螺纹连接                              \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验                \n
+    </item>
+        <item>
+    1.安装部位:室内                       \n
+    2.介质:燃气                         \n
+    3.规格、压力等级:DN50                  \n
+    4.连接形式:螺纹连接                     \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验       \n
+    </item>
+        <item>
+    1.安装部位:室内                              \n
+    2.介质:燃气                                \n
+    3.规格、压力等级:DN25                         \n
+    4.连接形式:焊接                              \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验              \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                    \n
+    </item>
+        <item>
+    1.安装部位:室内                             \n
+    2.介质:燃气                               \n
+    3.规格、压力等级:DN32                        \n
+    4.连接形式:焊接                             \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验             \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                   \n
+    </item>
+        <item>
+    1.安装部位:室内                         \n
+    2.介质:燃气                           \n
+    3.规格、压力等级:DN40                    \n
+    4.连接形式:焊接                         \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验         \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                     \n
+    </item>
+        <item>
+    1.安装部位:室内                           \n
+    2.介质:燃气                             \n
+    3.规格、压力等级:DN50                      \n
+    4.连接形式:焊接                           \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验           \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                       \n
+    </item>
+        <item>
+    1.安装部位:室内                              \n
+    2.介质:燃气                                \n
+    3.规格、压力等级:DN80                         \n
+    4.连接形式:焊接                              \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验              \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                          \n
+    </item>
+        <item>
+    1.安装部位:室外                              \n
+    2.介质:燃气                                \n
+    3.规格、压力等级:DN25                         \n
+    4.连接形式:焊接                              \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验              \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                          \n
+    </item>
+        <item>
+    1.安装部位:室外                              \n
+    2.介质:燃气                                \n
+    3.规格、压力等级:DN32                         \n
+    4.连接形式:焊接                              \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验              \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                          \n
+    </item>
+        <item>
+    1.安装部位:室外                                \n
+    2.介质:燃气                                  \n
+    3.规格、压力等级:DN40                           \n
+    4.连接形式:焊接                                \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验                \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                            \n
+    </item>
+        <item>
+    1.安装部位:室外                              \n
+    2.介质:燃气                                \n
+    3.规格、压力等级:DN50                         \n
+    4.连接形式:焊接                              \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验              \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                          \n
+    </item>
+        <item>
+    1.安装部位:室外                               \n
+    2.介质:燃气                                 \n
+    3.规格、压力等级:DN80                          \n
+    4.连接形式:焊接                               \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验               \n
+    6.:除锈、刷防锈漆两遍、调和漆两遍                           \n
+    </item>
+        <item>
+    1.材质:型钢                            \n
+    2.管架形式:一般管架                        \n
+    3.:支架除锈、刷防锈漆两遍、调和漆两遍         \n
+    </item>
+        <item>
+    1.类型:低压法兰阀门                            \n
+    2.规格、压力等级:DN15                         \n
+    3.连接形式:法兰连接                      \n
+    </item>
+        <item>
+    1.类型:低压法兰阀门                         \n
+    2.规格、压力等级:DN20                      \n
+    3.连接形式:法兰连接                   \n
+    </item>
+        <item>
+    1.类型:低压法兰阀门                           \n
+    2.规格、压力等级:DN25                        \n
+    3.连接形式:法兰连接                     \n
+    </item>
+        <item>
+    1.类型:低压法兰阀门                     \n
+    2.规格、压力等级:DN32                  \n
+    3.连接形式:法兰连接               \n
+    </item>
+        <item>
+    1.类型:低压法兰阀门                         \n
+    2.规格、压力等级:DN40                      \n
+    3.连接形式:法兰连接                   \n
+    </item>
+        <item>
+    1.类型:低压法兰阀门                       \n
+    2.规格、压力等级:DN50                    \n
+    3.连接形式:法兰连接                 \n
+    </item>
+        <item>
+    1.类型:低压法兰阀门                    \n
+    2.规格、压力等级:DN80                 \n
+    3.连接形式:法兰连接              \n
+    </item>
+        <item>
+    1.类型:黄铜内螺纹阀门              \n
+    2.规格、压力等级:DN15            \n
+    3.连接形式:螺纹连接         \n
+    </item>
+        <item>
+    1.类型:黄铜内螺纹阀门                 \n
+    2.规格、压力等级:DN20               \n
+    3.连接形式:螺纹连接            \n
+    </item>
+        <item>
+    1.类型:黄铜内螺纹阀门               \n
+    2.规格、压力等级:DN25             \n
+    3.连接形式:螺纹连接          \n
+    </item>
+        <item>
+    1.类型:黄铜内螺纹阀门                  \n
+    2.规格、压力等级:DN32                \n
+    3.连接形式:螺纹连接             \n
+    </item>
+        <item>
+    1.类型:黄铜内螺纹阀门             \n
+    2.规格、压力等级:DN40           \n
+    3.连接形式:螺纹连接         \n
+    </item>
+        <item>
+    1.类型:黄铜内螺纹阀门              \n
+    2.规格、压力等级:DN50            \n
+    3.连接形式:螺纹连接         \n
+    </item>
+        <item>
+    1.类型:黄铜内螺纹阀门           \n
+    2.规格、压力等级:DN80         \n
+    3.连接形式:螺纹连接      \n
+    </item>
+        <item>
+    1.型号、规格:皮膜表2.5m3   \n
+    2.托架设计要求:支架安装      \n
+    </item>
+        <item>
+    1.型号、规格:皮膜表4m3     \n
+    2.托架设计要求:支架安装      \n
+    </item>
+        <item>
+    1.型号、规格:皮膜表6m3   \n
+    2.托架设计要求:支架安装    \n
+    </item>
+        <item>
+    1.型号、规格:皮膜表10m3   \n
+    2.托架设计要求:支架安装     \n
+    </item>
+        <item>
+    1.安装部位:室外地下                    \n
+    2.介质:燃气                        \n
+    3.材质、规格:塑料管PE63                \n
+    4.连接形式:电熔连接                    \n
+    5.压力试验及吹、洗设计要求:强度试验、气密性试验      \n
+    </item>
+        <item>
+    1.种类:电熔弯头                   \n
+    2.材质及规格:PE63*90度            \n
+    3.连接方式:电熔连接                 \n
+    </item>
+        <item>
+    1.种类:电熔弯头                \n
+    2.材质及规格:PE63*45度         \n
+    3.连接方式:电熔连接              \n
+    </item>
+        <item>
+    1.土壤类别:三类土            \n
+    2.挖土深度:1.5米内          \n
+    3.机械挖土                \n
+    </item>
+        <item>
+        无
+    </item>
+        <item>
+    1.填方材料品种:二灰砂回填
+    </item>
+        <item>
+    1.填方材料品种:二灰结石           \n
+    2.:厂拌人铺二灰结石混合料基层20cm    \n
+    </item>
+        <item>
+        无
+    </item>
+        <item>
+    1.运距:余土外运40KM
+    </item>
+        <item>
+    1.材质:混凝土路面                \n
+    2.厚度:机械拆除混凝土路面破除15cm厚     \n
+    </item>
+        <item>
+    1.材质:混凝土路面             \n
+    2.厚度:20cm              \n
+    </item>
+        <item>
+    1.人工拆除混凝土路面破除20cm厚
+    </item>
+        <item>
+    1.人工拆除混凝土路面破除20cm厚
+    </item>
+        <item>
+    1.沥青路面破除10cm厚
+    </item>
+        <item>
+    1.人工拆除沥青路面破除15cm厚
+    </item>
+        <item>
+    1.机械拆除沥青路面破除10cm厚
+    </item>
+        <item>
+    1.机械拆除沥青路面破除10cm厚
+    </item>
+        <item>
+    1.种类:钢塑过渡接头63mm    \n
+    2.连接方式:电熔连接        \n
+    </item>
+        <item>
+    1.种类:钢塑过渡接头90mm    \n
+    2.连接方式:电熔连接        \n
+    </item>
+        <item>
+    1.种类:钢塑过渡接头110mm  \n
+    2.连接方式:电熔连接       \n
+    </item>
+        <item>
+    1.名称:焊缝X射线探伤拍片 \n
+    2.底片规格:80*300  \n
+    3.管壁厚度:4.2mm以内 \n
+    </item>
+        <item>
+    1.名称:焊缝X射线探伤拍片   \n
+    2.底片规格:80*150    \n
+    3.管壁厚度:4.2mm以内   \n
+    </item>
+        <item>
+    1.名称:焊缝渗透探伤       \n
+    2.管道规格:DN100以内    \n
+    </item>
+        <item>
+    1.名称:焊缝超声波探伤    \n
+    2.管道规格:DN150以内     \n
+    </item>
+        <item>
+    1.种类:镀锌管相接（带气)    \n
+    2.材质及规格:DN50*50   \n
+    </item>
+        <item>
+    1.种类:镀锌管相接（带气)     \n
+    2.材质及规格:DN50*40    \n
+    </item>
+        <item>
+    1.种类:镀锌管相接（带气)    \n
+    2.材质及规格:DN50*25   \n
+    </item>
+        <item>
+    1.种类:钢管相接（带气)    \n
+    2.材质及规格:DN80*50     \n
+    </item>
+        <item>
+    1.名称、类型:一般钢套管制作、安装   \n
+    2.规格:DN50            \n
+    </item>
+        <item>
+    1.名称、类型:一般钢套管制作、安装  \n
+    2.规格:DN80           \n
+    </item>
+        <item>
+    1.名称、类型:一般钢套管制作、安装    \n
+    2.规格:DN100            \n
+    </item>
+        <item>
+    1.名称、类型:一般钢套管制作、安装    \n
+    2.规格:DN150            \n
+    </item>
+        <item>
+        无
+    </item>
+    </string-array>
+
+     <!--单价-->
+    <string-array name="price">
+
+    <item name="Price.1">39.16</item>
+    <item name="Price.2">41.29</item>
+    <item name="Price.3">50.9</item>
+    <item name="Price.4">55.67</item>
+    <item name="Price.5">69.98</item>
+    <item name="Price.6">79.55</item>
+    <item name="Price.7">39.86</item>
+    <item name="Price.8">44.92</item>
+    <item name="Price.9">58.64</item>
+    <item name="Price.10">68.39</item>
+    <item name="Price.11">102.8</item>
+    <item name="Price.12">27.04</item>
+    <item name="Price.13">32.26</item>
+    <item name="Price.14">45.44</item>
+    <item name="Price.15">52.64</item>
+    <item name="Price.16">78.36</item>
+    <item name="Price.17">16.87</item>
+    <item name="Price.18">223.98</item>
+    <item name="Price.19">237.65</item>
+    <item name="Price.20">247.23</item>
+    <item name="Price.21">341.43</item>
+    <item name="Price.22">439.22</item>
+    <item name="Price.23">540.14</item>
+    <item name="Price.24">956.85</item>
+    <item name="Price.25">29.66</item>
+    <item name="Price.26">36.93</item>
+    <item name="Price.27">53.11</item>
+    <item name="Price.28">78.02</item>
+    <item name="Price.29">113.55</item>
+    <item name="Price.30">161.74</item>
+    <item name="Price.31">352.57</item>
+    <item name="Price.32">263.65</item>
+    <item name="Price.33">588.44</item>
+    <item name="Price.34">617.79</item>
+    <item name="Price.35">1448.71</item>
+    <item name="Price.36">29.01</item>
+    <item name="Price.37">73.45</item>
+    <item name="Price.38">92.26</item>
+    <item name="Price.39">50.36</item>
+    <item name="Price.40">34.75</item>
+    <item name="Price.41">27.19</item>
+    <item name="Price.42">46.27</item>
+    <item name="Price.43">11.5</item>
+    <item name="Price.44">106.48</item>
+    <item name="Price.45">15.91</item>
+    <item name="Price.46">21.17</item>
+    <item name="Price.47">15.21</item>
+    <item name="Price.48">20.24</item>
+    <item name="Price.49">7.25</item>
+    <item name="Price.50">10.87</item>
+    <item name="Price.51">7.02</item>
+    <item name="Price.52">10.59</item>
+    <item name="Price.53">129.15</item>
+    <item name="Price.54">319.39</item>
+    <item name="Price.55">369.49</item>
+    <item name="Price.56">150.81</item>
+    <item name="Price.57">117.4</item>
+    <item name="Price.58">13.1</item>
+    <item name="Price.59">18.99</item>
+    <item name="Price.60">193.81</item>
+    <item name="Price.61">193.81</item>
+    <item name="Price.62">193.81</item>
+    <item name="Price.63">770.35</item>
+    <item name="Price.64">30.36</item>
+    <item name="Price.65">36.91</item>
+    <item name="Price.66">49.12</item>
+    <item name="Price.67">70.74</item>
+    <item name="Price.68">61.66</item>
+    </string-array>
+
+    <string name="defaul">0</string>
+
+    <string-array name="num">
+
+        <item name="Num.1">0</item>
+        <item name="Num.2">0</item>
+        <item name="Num.3">0</item>
+        <item name="Num.4">0</item>
+        <item name="Num.5">0</item>
+        <item name="Num.6">0</item>
+        <item name="Num.7">0</item>
+        <item name="Num.8">0</item>
+        <item name="Num.9">0</item>
+        <item name="Num.10">0</item>
+        <item name="Num.11">0</item>
+        <item name="Num.12">0</item>
+        <item name="Num.13">0</item>
+        <item name="Num.14">0</item>
+        <item name="Num.15">0</item>
+        <item name="Num.16">0</item>
+        <item name="Num.17">0</item>
+        <item name="Num.18">0</item>
+        <item name="Num.19">0</item>
+        <item name="Num.20">0</item>
+        <item name="Num.21">0</item>
+        <item name="Num.22">0</item>
+        <item name="Num.23">0</item>
+        <item name="Num.24">0</item>
+        <item name="Num.25">0</item>
+        <item name="Num.26">0</item>
+        <item name="Num.27">0</item>
+        <item name="Num.28">0</item>
+        <item name="Num.29">0</item>
+        <item name="Num.30">0</item>
+        <item name="Num.31">0</item>
+        <item name="Num.32">0</item>
+        <item name="Num.33">0</item>
+        <item name="Num.34">0</item>
+        <item name="Num.35">0</item>
+        <item name="Num.36">0</item>
+        <item name="Num.37">0</item>
+        <item name="Num.38">0</item>
+        <item name="Num.39">0</item>
+        <item name="Num.40">0</item>
+        <item name="Num.41">0</item>
+        <item name="Num.42">0</item>
+        <item name="Num.43">0</item>
+        <item name="Num.44">0</item>
+        <item name="Num.45">0</item>
+        <item name="Num.46">0</item>
+        <item name="Num.47">0</item>
+        <item name="Num.48">0</item>
+        <item name="Num.49">0</item>
+        <item name="Num.50">0</item>
+        <item name="Num.51">0</item>
+        <item name="Num.52">0</item>
+        <item name="Num.53">0</item>
+        <item name="Num.54">0</item>
+        <item name="Num.55">0</item>
+        <item name="Num.56">0</item>
+        <item name="Num.57">0</item>
+        <item name="Num.58">0</item>
+        <item name="Num.59">0</item>
+        <item name="Num.60">0</item>
+        <item name="Num.61">0</item>
+        <item name="Num.62">0</item>
+        <item name="Num.63">0</item>
+        <item name="Num.64">0</item>
+        <item name="Num.65">0</item>
+        <item name="Num.66">0</item>
+        <item name="Num.67">0</item>
+        <item name="Num.68">0</item>
+
+    </string-array>
+
+
+    <!--项目名称-->
+    <string-array name="project">
+
+    <item>镀锌钢管DN15</item>
+    <item>镀锌钢管DN20</item>
+    <item>镀锌钢管DN25</item>
+    <item>镀锌钢管DN32</item>
+    <item>镀锌钢管DN40</item>
+    <item>镀锌钢管DN50</item>
+    <item>钢管DN25</item>
+    <item>钢管DN32</item>
+    <item>钢管DN40</item>
+    <item>钢管DN50</item>
+    <item>钢管DN80</item>
+    <item>钢管DN25</item>
+    <item>钢管DN32</item>
+    <item>钢管DN40</item>
+    <item>钢管DN50</item>
+    <item>钢管DN80</item>
+    <item>管道支架</item>
+    <item>低压法兰阀门DN15</item>
+    <item>低压法兰阀门DN20</item>
+    <item>低压法兰阀门DN25</item>
+    <item>低压法兰阀门DN32</item>
+    <item>低压法兰阀门DN40</item>
+    <item>低压法兰阀门DN50</item>
+    <item>低压法兰阀门DN80</item>
+    <item>螺纹阀门DN15</item>
+    <item>螺纹阀门DN20</item>
+    <item>螺纹阀门DN25</item>
+    <item>螺纹阀门DN32</item>
+    <item>螺纹阀门DN40</item>
+    <item>螺纹阀门DN50</item>
+    <item>螺纹阀门DN80</item>
+    <item>燃气表</item>
+    <item>燃气表</item>
+    <item>燃气表</item>
+    <item>燃气表</item>
+    <item>复合管</item>
+    <item>塑料管管件</item>
+    <item>塑料管管件</item>
+    <item>挖沟槽土方</item>
+    <item>回填方</item>
+    <item>回填方（二灰砂)</item>
+    <item>回填方（二灰结石）</item>
+    <item>路面锯缝</item>
+    <item>余方弃置</item>
+    <item>拆除路面(机械拆除混凝土路面破 除15cm厚)</item>
+    <item>机械拆除混凝土路面破除20cm厚</item>
+    <item>人工拆除混凝土路面破除15cm厚</item>
+    <item>人工拆除混凝土路面破除20cm厚</item>
+    <item>人工拆除沥青路面破除10cm厚</item>
+    <item>人工拆除沥青路面破除15cm厚</item>
+    <item>机械拆除沥青路面破除10cm厚</item>
+    <item>机械拆除沥青路面破除15cm厚</item>
+    <item>塑料管管件</item>
+    <item>塑料管管件</item>
+    <item>塑料管管件</item>
+    <item>焊缝X射线探伤拍片</item>
+    <item>焊缝X射线探伤拍片</item>
+    <item>焊缝渗透探伤</item>
+    <item>焊缝超声波探伤</item>
+    <item>镀锌管相接（带气)</item>
+    <item>镀锌管相接（带气)</item>
+    <item>镀锌管相接（带气)</item>
+    <item>钢管相接（带气)</item>
+    <item>一般钢套管</item>
+    <item>一般钢套管</item>
+    <item>一般钢套管</item>
+    <item>一般钢套管</item>
+    <item>脚手架搭拆</item>
+</string-array>
+
+    <!---单位-->
+    <string-array name="unit">
+
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>kg</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>台</item>
+        <item>台</item>
+        <item>台</item>
+        <item>台</item>
+        <item>m</item>
+        <item>个</item>
+        <item>个</item>
+        <item>m3</item>
+        <item>m3</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>m</item>
+        <item>m3</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>m2</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>张</item>
+        <item>张</item>
+        <item>口</item>
+        <item>口</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>个</item>
+        <item>项</item>
+
+    </string-array>
+
+    <string name="No.1">1.镀锌钢管DN15</string>
+    <string name="No.2">2.镀锌钢管DN20</string>
+    <string name="No.3">3.镀锌钢管DN25</string>
+    <string name="No.4">4.镀锌钢管DN32</string>
+    <string name="No.5">5.镀锌钢管DN40</string>
+    <string name="No.6">6.镀锌钢管DN50</string>
+    <string name="No.7">7.钢管DN25</string>
+    <string name="No.8">8.钢管DN32</string>
+    <string name="No.9">9.钢管DN40</string>
+    <string name="No.10">10.钢管DN50</string>
+    <string name="No.11">11.钢管DN80</string>
+    <string name="No.12">12.钢管DN25</string>
+    <string name="No.13">13.钢管DN32</string>
+    <string name="No.14">14.钢管DN40</string>
+    <string name="No.15">15.钢管DN50</string>
+    <string name="No.16">16.钢管DN80</string>
+    <!--<string name="No.17">0310 管道支架</string>-->
+    <!--<string name="No.19">0310 法兰阀门</string>   -->
+    <string name="No.17">17.管道支架</string>
+    <string name="No.18">18.低压法兰阀门DN15</string>
+    <string name="No.19">19.低压法兰阀门DN20</string>
+    <string name="No.20">20.低压法兰阀门DN25</string>
+    <string name="No.21">21.低压法兰阀门DN32</string>
+    <string name="No.22">22.低压法兰阀门DN40</string>
+    <string name="No.23">23.低压法兰阀门DN50</string>
+    <string name="No.24">24.低压法兰阀门DN80</string>
+    <string name="No.25">25.螺纹阀门DN15</string>
+    <string name="No.26">26.螺纹阀门DN20</string>
+    <string name="No.27">27.螺纹阀门DN25</string>
+    <string name="No.28">28.螺纹阀门DN32</string>
+    <string name="No.29">29.螺纹阀门DN40</string>
+    <string name="No.30">30.螺纹阀门DN50</string>
+    <string name="No.31">31.螺纹阀门DN80</string>
+    <string name="No.32">32.燃气表</string>
+    <string name="No.33">33.燃气表</string>
+    <string name="No.34">34.燃气表</string>
+    <string name="No.35">35.燃气表</string>
+    <string name="No.36">36.复合管</string>
+    <string name="No.37">37.塑料管管件</string>
+    <string name="No.38">38.塑料管管件</string>
+    <string name="No.39">39.挖沟槽土方</string>
+    <string name="No.40">40.回填方</string>
+    <string name="No.41">41.回填方（二灰砂)</string>
+    <string name="No.42">42.回填方（二灰结石）</string>
+    <string name="No.43">43.路面锯缝</string>
+    <string name="No.44">44.余方弃置</string>
+    <string name="No.45">45.拆除路面(机械拆除混凝土路面破 除15cm厚)</string>
+    <string name="No.46">46.机械拆除混凝土路面破除20cm厚</string>
+    <string name="No.47">47.人工拆除混凝土路面破除15cm厚</string>
+    <string name="No.48">48.人工拆除混凝土路面破除20cm厚</string>
+    <string name="No.49">49.人工拆除沥青路面破除10cm厚</string>
+    <string name="No.50">50.人工拆除沥青路面破除15cm厚</string>
+    <string name="No.51">51.机械拆除沥青路面破除10cm厚</string>
+    <string name="No.52">52.机械拆除沥青路面破除15cm厚</string>
+    <string name="No.53">53.塑料管管件</string>
+    <string name="No.54">54.塑料管管件</string>
+    <string name="No.55">55.塑料管管件</string>
+    <string name="No.56">56.焊缝X射线探伤拍片</string>
+    <string name="No.57">57.焊缝X射线探伤拍片</string>
+    <string name="No.58">58.焊缝渗透探伤</string>
+    <string name="No.59">59.焊缝超声波探伤</string>
+    <string name="No.60">60.镀锌管相接（带气)</string>
+    <string name="No.61">61.镀锌管相接（带气)</string>
+    <string name="No.62">62.镀锌管相接（带气)</string>
+    <string name="No.63">63.钢管相接（带气)</string>
+    <string name="No.64">64.一般钢套管</string>
+    <string name="No.65">65.一般钢套管</string>
+    <string name="No.66">66.一般钢套管</string>
+    <string name="No.67">67.一般钢套管</string>
+    <string name="No.68">68.脚手架搭拆</string>
+
+
+</resources>

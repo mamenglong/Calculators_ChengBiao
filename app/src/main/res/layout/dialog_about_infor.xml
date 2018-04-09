@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/dialog_about_infor"
+    android:layout_marginTop="50dp"
+    android:layout_height="240dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:text="成标软件"
+
+        android:textSize="25dp"
+        android:layout_height="50dp" />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/versionColor"
+        android:text="@string/version"/>
+    <TextView
+        android:text="tips"
+        android:gravity="center_horizontal"
+        android:textColor="@color/tipsColor"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    <Button
+        android:id="@+id/check_update"
+        android:textAlignment="center"
+        android:background="@color/white"
+        android:text="@string/check_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

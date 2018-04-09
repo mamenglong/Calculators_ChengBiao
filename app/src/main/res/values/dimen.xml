@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="characterSize">10sp</dimen>
+    <dimen name="btn_width">16dp</dimen>
+    <dimen name="btn_height">16dp</dimen>
+    <dimen name="table_height">40dp</dimen>
+</resources>

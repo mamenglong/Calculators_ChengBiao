@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single"
+        >
+        <item
+            android:id="@+id/nav_home"
+            android:title="主页"
+            android:icon="@drawable/ic_menu"/>
+        <item android:id="@+id/nav_save"
+            android:icon="@drawable/nav_save"
+            android:title="保存记录"
+            />
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/nav_history"
+            android:title="历史记录"
+            />
+        <item android:id="@+id/uploadToServer"
+            android:title="上传服务器"
+            android:icon="@drawable/nav_upload"/>
+    </group>
+    <item android:title="关于">
+        <menu>
+            <item android:icon="@drawable/nav_qq"
+                android:id="@+id/contactMe"
+                android:title="QQ"/>
+            <item android:id="@+id/about"
+                android:icon="@drawable/nav_about"
+                android:title="关于"/>
+            <item
+                android:id="@+id/tips"
+                android:tooltipText="历史记录保存地址：/storage/emulated/0/ChengBiaoCache"
+                android:title="历史记录保存地址：/storage/emulated/0/ChengBiaoCache"
+                android:checked="false"/>
+        </menu>
+
+    </item>
+</menu>
