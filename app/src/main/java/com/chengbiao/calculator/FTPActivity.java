@@ -1,10 +1,13 @@
 package com.chengbiao.calculator;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.chengbiao.calculator.ftp.FTP;
 
@@ -46,13 +49,21 @@ public class FTPActivity extends AppCompatActivity {
         buttonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final ProgressDialog pd6 = new ProgressDialog(FTPActivity.this);
+                pd6.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
+                pd6.setCancelable(true);// 设置是否可以通过点击Back键取消
+                pd6.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+                pd6.setIcon(R.mipmap.ic_launcher);// 设置提示的title的图标，默认是没有的
+                pd6.setTitle("文件上传中");
+                pd6.setMessage("上传进度");
+                String filePath=getFileCachePath()+File.separator+"20180409.xml";
+                final File file = new File(filePath);
 
+                pd6.setMax((int)file.length());
+                pd6.show();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String filePath=getFileCachePath()+File.separator+"20180409.xml";
-                        // 上传
-                        File file = new File(filePath);
                         try {
                             //单文件上传
                             new FTP().uploadSingleFile(file, "/gh",new FTP.UploadProgressListener(){
@@ -60,7 +71,15 @@ public class FTPActivity extends AppCompatActivity {
                                 public void onUploadProgress(String currentStep,long uploadSize,File file) {
                                     // TODO Auto-generated method stub
                                     Log.i(TAG, currentStep);
+                                    pd6.setProgress((int)uploadSize);
                                     if(currentStep.equals(FTPActivity.FTP_UPLOAD_SUCCESS)){
+                                        pd6.dismiss();
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(FTPActivity.this,"上传完成！",Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                         Log.i(TAG, "-----shanchuan--successful");
                                     } else if(currentStep.equals(FTPActivity.FTP_UPLOAD_LOADING)){
                                         long fize = file.length();

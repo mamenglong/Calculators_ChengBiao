@@ -6,4 +6,6 @@
     <color name="versionColor">#303F9F</color>
     <color name="tipsColor">#f40505</color>
     <color name="white">#fdfbfb</color>
+    <color name="gray">#535252</color>
+    <color name="green">#02f23a</color>
 </resources>

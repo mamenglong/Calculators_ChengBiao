@@ -6,12 +6,14 @@
     android:id="@+id/dialog_about_infor"
     android:layout_marginTop="50dp"
     android:layout_height="240dp">
+
     <TextView
         android:layout_width="match_parent"
-        android:text="成标软件"
+        android:layout_height="50dp"
 
-        android:textSize="25dp"
-        android:layout_height="50dp" />
+        android:text="成标软件"
+        android:textSize="30dp"
+        android:textStyle="bold" />
     <TextView
 
         android:layout_width="match_parent"

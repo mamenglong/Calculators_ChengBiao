@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.chengbiao.calculator.adapter.ProjectOne;
 import com.chengbiao.calculator.adapter.TableViewAdapter;
 import com.chengbiao.calculator.common.Common;
+import com.chengbiao.calculator.ftp.MyFTP;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -103,19 +104,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode)
             {
-                case 0:
+                case 0://历史记录返回文件
                     Uri selectedMediaUri = data.getData();
                     String path =  selectedMediaUri.getPath();
+                    Log.e("Error", "onActivityResult: "+path);
+                    try{
                     list.clear();
                     list .addAll(Common.parserXmlFromLocal(path));
                     adapter.notifyDataSetChanged();
-                    Log.e("Error", "onActivityResult: "+path);
+                    Toast.makeText(this,"打开成功，请查看！",Toast.LENGTH_SHORT).show();
+                    }
+                    catch (Exception e){
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(this,"文件格式不对或已损坏！",Toast.LENGTH_SHORT).show();
+                    }
+
                     break;
+                case 1://上传文件选择文件路径
+                    Uri selectedMediaUriu = data.getData();
+                    String filePath =  selectedMediaUriu.getPath();
+                    Log.e("MyFTP", "onActivityResult: "+filePath);
+                    try{
+                       new MyFTP().ftpUpload(this,filePath);
+                     //  Toast.makeText(this,"上传完成！",Toast.LENGTH_SHORT).show();
+                    }
+                    catch (Exception e){
+                        Toast.makeText(this,"文件格式不对！"+e.toString(),Toast.LENGTH_SHORT).show();
+
+                    }
+                    break;
+
                 default:
 
             }
@@ -215,12 +238,20 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.icon_mail:
-                    Intent it = new Intent(Intent.ACTION_SENDTO);
-                    it.putExtra(Intent.EXTRA_EMAIL, getResources().getString(R.string.nav_header_email));
-                    //   it.setType("text/plain");
-                    startActivity(Intent.createChooser(it, "Choose Email Client"));
+//                    Intent it = new Intent(Intent.ACTION_SENDTO);
+//                    it.putExtra(Intent.EXTRA_EMAIL, getResources().getString(R.string.nav_header_email));
+//                    //   it.setType("text/plain");
+//                    startActivity(Intent.createChooser(it, "Choose Email Client"));
+//                    break;
+                    Intent intent=new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse("http://www.chengbiaosoft.com/");
+                    intent.setClassName("com.android.browser","com.android.browser.BrowserActivity");
+                    intent.setClassName("com.uc.browser", "com.uc.browser.ActivityUpdate");
+                    intent.setClassName("com.tencent.mtt", "com.tencent.mtt.MainActivity");
+                    intent.setData(content_url);
+                    startActivity(Intent.createChooser(intent,"选择浏览器打开网站"));
                     break;
-
                 default:
             }
 
@@ -235,24 +266,12 @@ public class MainActivity extends AppCompatActivity {
                             .show();
                     break;
                 case R.id.nav_history:
-                    String filePath=Common.getFileCachePath();
-                    File parentFile = new File(filePath+File.separator+"20180409.xml");
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    //判断是否是AndroidN以及更高的版本
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        Uri contentUri = FileProvider.getUriForFile(MainActivity.this,   "com.chengbiao.calculator.fileprovider", parentFile);
-                        intent.setDataAndType(contentUri, "*/*");
-                    }
-                    else {
-                        intent.setDataAndType(Uri.fromFile(parentFile), "*/*");
-                    }
-                    startActivityForResult(intent, 0);
+                    openExploer(0);
                     break;
                 case R.id.uploadToServer:
-                    Intent intentftp=new Intent(MainActivity.this,FTPActivity.class);
-                    startActivity(intentftp);
+//                    Intent intentftp=new Intent(MainActivity.this,FTPActivity.class);
+//                    startActivity(intentftp);
+                    openExploer(1);
                     break;
                 case R.id.nav_save:
                     Common.saveThisDialog(MainActivity.this, list);
@@ -283,5 +302,25 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.closeDrawers();
             return true;
         }
+
+        public void openExploer(int requestCode){
+            String filePath=Common.getFileCachePath();
+          //  File parentFile = new File(filePath+File.separator+"20180409.xml");
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            //判断是否是AndroidN以及更高的版本
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                Uri contentUri = FileProvider.getUriForFile(MainActivity.this,   "com.chengbiao.calculator.fileprovider", null);
+//                intent.setDataAndType(contentUri, "*/*");
+            }
+            else {
+                intent.setType("*/*");//无类型限制
+//                intent.setDataAndType(Uri.fromFile(null), "*/*");
+            }
+            intent.setType("*/*");
+            startActivityForResult(intent, requestCode);
+        }
+
     }
 }

@@ -5,7 +5,7 @@ package com.chengbiao.calculator.ftp;
  * Created by Long on 2018/4/9.
  * 修改时间：2018/4/9 23:08
  */
-import com.chengbiao.calculator.FTPActivity;
+
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -77,10 +77,10 @@ public class FTP {
         boolean flag;
         flag = uploadingSingle(singleFile, listener);
         if (flag) {
-            listener.onUploadProgress(FTPActivity.FTP_UPLOAD_SUCCESS, 0,
+            listener.onUploadProgress(MyFTP.FTP_UPLOAD_SUCCESS, 0,
                     singleFile);
         } else {
-            listener.onUploadProgress(FTPActivity.FTP_UPLOAD_FAIL, 0,
+            listener.onUploadProgress(MyFTP.FTP_UPLOAD_FAIL, 0,
                     singleFile);
         }
 
@@ -110,10 +110,10 @@ public class FTP {
         for (File singleFile : fileList) {
             flag = uploadingSingle(singleFile, listener);
             if (flag) {
-                listener.onUploadProgress(FTPActivity.FTP_UPLOAD_SUCCESS, 0,
+                listener.onUploadProgress(MyFTP.FTP_UPLOAD_SUCCESS, 0,
                         singleFile);
             } else {
-                listener.onUploadProgress(FTPActivity.FTP_UPLOAD_FAIL, 0,
+                listener.onUploadProgress(MyFTP.FTP_UPLOAD_FAIL, 0,
                         singleFile);
             }
         }
@@ -167,11 +167,11 @@ public class FTP {
         // 打开FTP服务
         try {
             this.openConnect();
-            listener.onUploadProgress(FTPActivity.FTP_CONNECT_SUCCESSS, 0,
+            listener.onUploadProgress(MyFTP.FTP_CONNECT_SUCCESSS, 0,
                     null);
         } catch (IOException e1) {
             e1.printStackTrace();
-            listener.onUploadProgress(FTPActivity.FTP_CONNECT_FAIL, 0, null);
+            listener.onUploadProgress(MyFTP.FTP_CONNECT_FAIL, 0, null);
             return;
         }
 
@@ -194,7 +194,7 @@ public class FTP {
     private void uploadAfterOperate(UploadProgressListener listener)
             throws IOException {
         this.closeConnect();
-        listener.onUploadProgress(FTPActivity.FTP_DISCONNECT_SUCCESS, 0, null);
+        listener.onUploadProgress(MyFTP.FTP_DISCONNECT_SUCCESS, 0, null);
     }
 
     // -------------------------------------------------------文件下载方法------------------------------------------------
@@ -218,17 +218,17 @@ public class FTP {
         // 打开FTP服务
         try {
             this.openConnect();
-            listener.onDownLoadProgress(FTPActivity.FTP_CONNECT_SUCCESSS, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_SUCCESSS, 0, null);
         } catch (IOException e1) {
             e1.printStackTrace();
-            listener.onDownLoadProgress(FTPActivity.FTP_CONNECT_FAIL, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_FAIL, 0, null);
             return;
         }
 
         // 先判断服务器文件是否存在
         FTPFile[] files = ftpClient.listFiles(serverPath);
         if (files.length == 0) {
-            listener.onDownLoadProgress(FTPActivity.FTP_FILE_NOTEXISTS, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_FILE_NOTEXISTS, 0, null);
             return;
         }
 
@@ -267,7 +267,7 @@ public class FTP {
             if (currentSize / step != process) {
                 process = currentSize / step;
                 if (process % 5 == 0) { //每隔%5的进度返回一次
-                    listener.onDownLoadProgress(FTPActivity.FTP_DOWN_LOADING, process, null);
+                    listener.onDownLoadProgress(MyFTP.FTP_DOWN_LOADING, process, null);
                 }
             }
         }
@@ -277,14 +277,14 @@ public class FTP {
 
         // 此方法是来确保流处理完毕，如果没有此方法，可能会造成现程序死掉
         if (ftpClient.completePendingCommand()) {
-            listener.onDownLoadProgress(FTPActivity.FTP_DOWN_SUCCESS, 0, new File(localPath));
+            listener.onDownLoadProgress(MyFTP.FTP_DOWN_SUCCESS, 0, new File(localPath));
         } else {
-            listener.onDownLoadProgress(FTPActivity.FTP_DOWN_FAIL, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_DOWN_FAIL, 0, null);
         }
 
         // 下载完成之后关闭连接
         this.closeConnect();
-        listener.onDownLoadProgress(FTPActivity.FTP_DISCONNECT_SUCCESS, 0, null);
+        listener.onDownLoadProgress(MyFTP.FTP_DISCONNECT_SUCCESS, 0, null);
 
         return;
     }
@@ -306,17 +306,17 @@ public class FTP {
         // 打开FTP服务
         try {
             this.openConnect();
-            listener.onDeleteProgress(FTPActivity.FTP_CONNECT_SUCCESSS);
+            listener.onDeleteProgress(MyFTP.FTP_CONNECT_SUCCESSS);
         } catch (IOException e1) {
             e1.printStackTrace();
-            listener.onDeleteProgress(FTPActivity.FTP_CONNECT_FAIL);
+            listener.onDeleteProgress(MyFTP.FTP_CONNECT_FAIL);
             return;
         }
 
         // 先判断服务器文件是否存在
         FTPFile[] files = ftpClient.listFiles(serverPath);
         if (files.length == 0) {
-            listener.onDeleteProgress(FTPActivity.FTP_FILE_NOTEXISTS);
+            listener.onDeleteProgress(MyFTP.FTP_FILE_NOTEXISTS);
             return;
         }
 
@@ -324,14 +324,14 @@ public class FTP {
         boolean flag = true;
         flag = ftpClient.deleteFile(serverPath);
         if (flag) {
-            listener.onDeleteProgress(FTPActivity.FTP_DELETEFILE_SUCCESS);
+            listener.onDeleteProgress(MyFTP.FTP_DELETEFILE_SUCCESS);
         } else {
-            listener.onDeleteProgress(FTPActivity.FTP_DELETEFILE_FAIL);
+            listener.onDeleteProgress(MyFTP.FTP_DELETEFILE_FAIL);
         }
 
         // 删除完成之后关闭连接
         this.closeConnect();
-        listener.onDeleteProgress(FTPActivity.FTP_DISCONNECT_SUCCESS);
+        listener.onDeleteProgress(MyFTP.FTP_DISCONNECT_SUCCESS);
 
         return;
     }

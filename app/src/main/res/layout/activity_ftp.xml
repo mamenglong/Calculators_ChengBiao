@@ -5,31 +5,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FTPActivity">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <Button
-        android:id="@+id/button_upload"
-        android:text="上传"
-        android:background="?android:attr/selectableItemBackground"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="上传" />
+
+            <Button
+                android:id="@+id/button_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下载" />
+
+            <Button
+                android:id="@+id/button_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="删除" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/button_down"
-        android:text="下载"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/button_delete"
-        android:text="删除"
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
 </android.support.constraint.ConstraintLayout>

@@ -23,14 +23,13 @@
         <menu>
             <item android:icon="@drawable/nav_qq"
                 android:id="@+id/contactMe"
-                android:title="QQ"/>
+                android:title="联系客服"/>
             <item android:id="@+id/about"
                 android:icon="@drawable/nav_about"
                 android:title="关于"/>
             <item
                 android:id="@+id/tips"
-                android:tooltipText="历史记录保存地址：/storage/emulated/0/ChengBiaoCache"
-                android:title="历史记录保存地址：/storage/emulated/0/ChengBiaoCache"
+                android:title="点击显示历史记录保存地址"
                 android:checked="false"/>
         </menu>
 

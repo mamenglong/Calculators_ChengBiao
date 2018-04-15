@@ -3,11 +3,14 @@ package com.chengbiao.calculator.common;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chengbiao.calculator.MainActivity;
 import com.chengbiao.calculator.R;
 import com.chengbiao.calculator.adapter.ProjectOne;
 
@@ -292,7 +296,23 @@ public class Common {
 //        }
 //    }
 // 使用Pull解析器读取本地的XML文件
-    public static List<ProjectOne> parserXmlFromLocal(String filePath) {
+    public static  List<ProjectOne> parserXmlFromLocal(String filePath) {
+        String[] suffix=filePath.split("\\.");
+        if(!"xml".contains(suffix[suffix.length-1]))
+        {
+            new AlertDialog.Builder(MyApplication.getContext())
+                    .setTitle("异常提示")
+                    .setMessage("你选择的文件类型不对\n请选择 xml类型的文件！")
+                    .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setCancelable(false) //设置点击外面消失
+                    .show();
+            return null;
+        }
         try {
             File path = new File(filePath);
             FileInputStream fis = new FileInputStream(path);
@@ -347,5 +367,8 @@ public class Common {
         }
         return null;
     }
+    
+    
+
 }
 
