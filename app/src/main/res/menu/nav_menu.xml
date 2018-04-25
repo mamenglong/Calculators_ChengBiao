@@ -4,7 +4,7 @@
         >
         <item
             android:id="@+id/nav_home"
-            android:title="主页"
+            android:title="选择模板"
             android:icon="@drawable/ic_menu"/>
         <item android:id="@+id/nav_save"
             android:icon="@drawable/nav_save"
@@ -18,6 +18,10 @@
         <item android:id="@+id/uploadToServer"
             android:title="上传服务器"
             android:icon="@drawable/nav_upload"/>
+        <item android:id="@+id/dowmLoadModel"
+            android:title="下载模板"
+            android:icon="@drawable/nav_download"/>
+
     </group>
     <item android:title="关于">
         <menu>

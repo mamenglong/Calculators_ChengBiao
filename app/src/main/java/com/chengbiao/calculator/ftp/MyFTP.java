@@ -11,10 +11,14 @@ import android.widget.Toast;
 
 import com.chengbiao.calculator.MainActivity;
 import com.chengbiao.calculator.R;
+import com.chengbiao.calculator.common.Common;
 import com.chengbiao.calculator.common.MyApplication;
+
+import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static com.chengbiao.calculator.common.Common.getFileCachePath;
 
@@ -106,11 +110,11 @@ public class MyFTP {
                                         .setTitle("上传失败")
                                         .setMessage("文件上传失败，请检查文件或路径！")
                                         .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        }).show();
                             }
                         }
                     });
@@ -128,27 +132,37 @@ public class MyFTP {
     /****
      * ftp下载服务器文件
      * @param serverPath
-     * @param fileName
+     * @param fileName 下载后的文件名
      */
-    public void ftpDowmload(final String serverPath, String fileName){
-
+    public void ftpDowmload(final Context context,  final String serverPath, final String fileName){
+        final ProgressDialog pd6 = new ProgressDialog(context);
+        pd6.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
+        pd6.setCancelable(true);// 设置是否可以通过点击Back键取消
+        pd6.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        pd6.setIcon(R.mipmap.ic_launcher);// 设置提示的title的图标，默认是没有的
+        pd6.setTitle("文件下载中");
+        pd6.setMax(100);
+        //  String filePath=getFileCachePath()+ File.separator+"20180409.xml";
+        pd6.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 // 下载
                 try {
-
                     //单文件下载
 //                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
-                    new FTP().downloadSingleFile(serverPath,"/mnt/sdcard/download/",serverPath,new FTP.DownLoadProgressListener(){
+                    new FTP().downloadSingleFile(serverPath,MyApplication.getCachePath()+"/Model/",fileName,new FTP.DownLoadProgressListener(){
                         @Override
                         public void onDownLoadProgress(String currentStep, long downProcess, File file) {
                             Log.i(TAG, currentStep);
+                            pd6.setProgress((int)(100*downProcess));
                             if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
                                 Log.i(TAG, "-----xiazai--successful");
+                                pd6.dismiss();
+                                Toast.makeText(context,"下载完成！",Toast.LENGTH_SHORT).show();
                             } else if(currentStep.equals(MyFTP.FTP_DOWN_LOADING)){
                                 Log.i(TAG, "-----xiazai---"+downProcess + "%");
+                                pd6.setMessage("下载进度-----"+downProcess + "%");
                             }
                         }
 
@@ -163,6 +177,58 @@ public class MyFTP {
         }).start();
 
     }
+
+    public void ftpMutiDowmload(final Context context, final String serverPath, final ArrayList<String>fileNameList){
+        final ProgressDialog pd6 = new ProgressDialog(context);
+        pd6.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);// 设置水平进度条
+        pd6.setCancelable(true);// 设置是否可以通过点击Back键取消
+        pd6.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        pd6.setIcon(R.mipmap.ic_launcher);// 设置提示的title的图标，默认是没有的
+        pd6.setTitle(fileNameList.size()+"个文件下载中...");
+        pd6.setMax(100*fileNameList.size());
+        //  String filePath=getFileCachePath()+ File.separator+"20180409.xml";
+        pd6.show();
+        for (final String fileName:fileNameList
+             ) {
+          final String remotePath=serverPath+fileName;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Looper.prepare();
+                    // 下载
+                    try {
+                        //单文件下载
+//                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
+                        new FTP().downloadSingleFile(remotePath,MyApplication.getCachePath()+"/Model/",fileName,new FTP.DownLoadProgressListener(){
+                            @Override
+                            public void onDownLoadProgress(String currentStep, long downProcess, File file) {
+                                Log.i(TAG, currentStep);
+                                pd6.setProgress((int)(100*downProcess*(fileNameList.indexOf(fileName)+1)));
+                                if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
+                                    Log.i(TAG, "-----xiazai--successful");
+                                    if(fileNameList.indexOf(fileName)==(fileNameList.size()-1))
+                                         pd6.dismiss();
+                                    Toast.makeText(context,"下载完成！",Toast.LENGTH_SHORT).show();
+                                } else if(currentStep.equals(MyFTP.FTP_DOWN_LOADING)){
+                                    Log.i(TAG, "-----xiazai---"+downProcess + "%");
+                                    pd6.setMessage("下载进度-----"+downProcess/fileNameList.size() + "%");
+                                }
+                            }
+
+                        });
+
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+Looper.loop();
+                }
+            }).start();
+
+        }
+
+    }
+
 
     /****
      * ftp删除文件
@@ -197,6 +263,11 @@ public class MyFTP {
             }
         }).start();
 
+    }
+
+
+    public void getFileSize(final String severPath, final int[] num , ArrayList<String> list)  {
+       num[1] = new FTP().getFileList(severPath,list);
     }
 
 }

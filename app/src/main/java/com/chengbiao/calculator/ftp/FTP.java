@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import org.apache.commons.net.ftp.FTPClient;
@@ -53,6 +54,11 @@ public class FTP {
         this.userName = "byw1278120001";
         this.password = "zhanglei904";
         this.ftpClient = new FTPClient();
+//        this.hostName = "192.168.1.167";
+//        this.serverPort = 21;
+//        this.userName = "1519269558@qq.com";
+//        this.password = "xiaolong1996.";
+//        this.ftpClient = new FTPClient();
     }
 
     // -------------------------------------------------------文件上传方法------------------------------------------------
@@ -198,6 +204,42 @@ public class FTP {
     }
 
     // -------------------------------------------------------文件下载方法------------------------------------------------
+
+    /****
+     * 获取远程文件列表
+     * @param serverPath
+     * @return
+     * @throws Exception
+     */
+    public int getFileList(String serverPath, ArrayList<String> list) {
+        int num=0 ;
+        // 打开FTP服务
+        try {
+            this.openConnect();
+            FTPFile[]files= ftpClient.listFiles(serverPath);
+            if (files.length != 0) {
+                num=files.length;
+                for (FTPFile F:files
+                     ) {
+                    list.add(F.getName());
+                }
+            }
+        }
+        catch (IOException e1){
+            e1.printStackTrace();
+
+        }
+        // 此方法是来确保流处理完毕，如果没有此方法，可能会造成现程序死掉
+
+
+        try {
+            this.closeConnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 先判断服务器文件是否存在
+        return num;
+    }
 
     /**
      * 下载单个文件，可实现断点下载.

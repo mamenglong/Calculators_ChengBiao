@@ -2,6 +2,7 @@ package com.chengbiao.calculator.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.chengbiao.calculator.MainActivity;
 import com.chengbiao.calculator.R;
 import com.chengbiao.calculator.adapter.ProjectOne;
+import com.chengbiao.calculator.ftp.MyFTP;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlSerializer;
@@ -207,7 +209,7 @@ public class Common {
 
                 serializer.startTag(null, "num");
                 if(i==0)
-                serializer.text("数量");
+                    serializer.text("数量");
                 else
                     serializer.text(projectOne.getEdit_num());
                 serializer.endTag(null, "num");
@@ -246,10 +248,10 @@ public class Common {
             //通过file的mkdirs()方法创建<span style="color:#FF0000;">目录中包含却不存在</span>的文件夹
             filePath.mkdirs();
         }
-       return  filePath.toString();
+        return  filePath.toString();
     }
 
-// 使用Pull解析器生成XML文件，并写到本地
+    // 使用Pull解析器生成XML文件，并写到本地
 //    private void writeXmlToLocal() {
 //        List<ProjectOne> personList = getPersonList();
 //
@@ -367,8 +369,107 @@ public class Common {
         }
         return null;
     }
-    
-    
+
+    /**
+     * 模板下载
+     *
+     */
+    public static void downloadDialogModelChoice(final Context context, int fileSize, final ArrayList<String>list) {
+        Log.i("ftp", "fileSize="+fileSize);
+        final String item[] = context.getResources().getStringArray(R.array.model);//{"JAVA", "C++", "JavaScript", "MySQL"};
+        final boolean selected[] = new boolean[fileSize];
+        final String items[]=new String[fileSize];
+        while (fileSize>0){
+            selected[0]=true;
+            items[fileSize-1]=item[fileSize-1];
+            fileSize--;
+        }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("请选择要下载的模板");
+        builder.setIcon(R.drawable.app);
+        if(items.length!=0){
+        builder.setMultiChoiceItems(items, selected,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which,
+                                        boolean isChecked) {
+                        if(isChecked)
+                        {
+                            new  AlertDialog.Builder(context)
+                                    .setTitle(items[which]+"描述" )
+                                    .setMessage(items[which])
+                                    .setPositiveButton("我知道了" ,  null )
+                                    .show();
+                        }
+                    }
+                });
+        builder.setCancelable(false);
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("下载", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                // android会自动根据你选择的改变selected数组的值。
+                ArrayList<String> temlist=new ArrayList<>();
+                for (int i = 0; i < selected.length; i++) {
+                    Log.i("md", "onClick: "+selected[i]);
+                    if(selected[i]){
+                        //todo 服务器路径修改处
+                        temlist.add(list.get(i));
+                        }
+                }
+                new MyFTP().ftpMutiDowmload(context,"/gh/Model/",temlist);
+            }
+        });
+        }
+        else
+        {
+            builder.setMessage("暂无模板");
+            builder.setNegativeButton("我知道了", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        builder.create().show();
+    }
+
+    /****
+     * 打开模板选择    定义在这里不可以使用
+     * @param context
+     * @param result
+     * @return
+     */
+    public static int openDialogModelChoice(final Context context,final int[] result) {
+        final String items[] = {"JAVA", "C++", "JavaScript", "MySQL"};
+        final boolean selected[] = new boolean[items.length];
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("请选择要打开的模板");
+        builder.setIcon(R.mipmap.ic_launcher);
+        selected[0]=true;
+        builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                result[0] =which;
+            }
+        });
+        builder.setPositiveButton("打开", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
+        return result[0];
+    }
+
 
 }
 

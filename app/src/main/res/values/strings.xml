@@ -11,7 +11,16 @@
     <string name="qq_number">1519269558</string>
     <string name="version">版本1.0</string>
     <string name="check_update">检查更新</string>
-
+<string-array name="model">
+    <item>模板一</item>
+    <item>模板二</item>
+    <item>模板三</item>
+    <item>模板四</item>
+    <item>模板五</item>
+    <item>模板六</item>
+    <item>模板七</item>
+    <item>模板八</item>
+</string-array>
     <integer-array name="loading">
 
     </integer-array>
