@@ -1,4 +1,4 @@
-package com.chengbiao.calculator.update;
+package com.chengbiao.calculator.update.version;
 
 /**
  * 项目名称：BingWallPaper

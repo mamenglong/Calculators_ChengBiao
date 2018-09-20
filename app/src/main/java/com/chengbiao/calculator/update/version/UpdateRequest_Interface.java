@@ -1,4 +1,4 @@
-package com.chengbiao.calculator.update;
+package com.chengbiao.calculator.update.version;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

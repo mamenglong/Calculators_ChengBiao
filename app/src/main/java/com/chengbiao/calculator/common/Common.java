@@ -2,16 +2,13 @@ package com.chengbiao.calculator.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
@@ -22,19 +19,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chengbiao.calculator.MainActivity;
 import com.chengbiao.calculator.R;
 import com.chengbiao.calculator.adapter.ProjectOne;
 import com.chengbiao.calculator.ftp.MyFTP;
-import com.chengbiao.calculator.update.CheckUpdate;
+import com.chengbiao.calculator.update.model.CheckModelService;
+import com.chengbiao.calculator.update.version.CheckUpdate;
 import com.chengbiao.calculator.utils.SPUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -201,9 +203,13 @@ public class Common {
         Date date = new Date(System.currentTimeMillis());
         try {
             if(fileName!=null&&fileName!="")
+            {
                 fileName=simpleDateFormat.format(date)+fileName+".xml";
+            }
             else
+            {
                 fileName=simpleDateFormat.format(date)+"Projects.xml";
+            }
             File file = new File(filePath,fileName);
             FileOutputStream fos = new FileOutputStream(file);
             // 获得一个序列化工具
@@ -228,9 +234,13 @@ public class Common {
 
                 serializer.startTag(null, "num");
                 if(i==0)
+                {
                     serializer.text("数量");
+                }
                 else
+                {
                     serializer.text(projectOne.getEdit_num());
+                }
                 serializer.endTag(null, "num");
                 //写综合单价
                 serializer.startTag(null, "price");
@@ -393,18 +403,24 @@ public class Common {
      * 模板下载
      *
      */
-    public static void downloadDialogModelChoice(final Context context, int fileSize, final ArrayList<String>list) {
+    public static void downloadDialogModelChoice(final Context context, int fileSize, final ArrayList<String>list,boolean isDownload) {
         Log.i("ftp", "fileSize="+fileSize);
         final String[] item = context.getResources().getStringArray(R.array.model);
         final boolean[] selected = new boolean[fileSize];
         final String[] items=new String[fileSize];
+        String download="下载";
         while (fileSize>0){
-            selected[0]=true;
+            if(!isDownload)//更新
+            {
+                download="更新";
+                selected[fileSize-1]=true;
+            }
+
             items[fileSize-1]=item[fileSize-1];
             fileSize--;
         }
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("请选择要下载的模板");
+        builder.setTitle("请选择要"+download+"的模板");
         builder.setIcon(R.drawable.app);
         if(items.length!=0){
         builder.setMultiChoiceItems(items, selected,
@@ -429,7 +445,7 @@ public class Common {
                 dialog.dismiss();
             }
         });
-        builder.setPositiveButton("下载", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(download, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -443,6 +459,28 @@ public class Common {
                         }
                 }
                 new MyFTP().ftpMutiDowmload(context,"/gh/Model/",temlist);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        File reupdate=new File(CheckModelService.exlocalPath+"reupdate.txt");
+                        File update=new File(CheckModelService.localPath+"update.txt");
+                        InputStreamReader reupdateReader = null; // 建立一个输入流对象reader
+                        try {
+                            reupdateReader = new InputStreamReader( new FileInputStream(reupdate));
+                            BufferedReader rebr = new BufferedReader(reupdateReader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
+                            String reupdateline="";
+                            reupdateline=rebr.readLine();
+                            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(update));
+                            osw.write(reupdateline);
+                            osw.flush();
+                            osw.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         });
         }

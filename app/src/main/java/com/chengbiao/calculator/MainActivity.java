@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
+import android.os.IBinder;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -37,15 +39,22 @@ import com.chengbiao.calculator.adapter.TableViewAdapter;
 import com.chengbiao.calculator.common.Common;
 import com.chengbiao.calculator.common.MyApplication;
 import com.chengbiao.calculator.ftp.MyFTP;
+import com.chengbiao.calculator.update.model.CheckModel;
+import com.chengbiao.calculator.update.model.CheckModelService;
+import com.chengbiao.calculator.update.model.DownloadListener;
 import com.chengbiao.calculator.utils.ActivityManager;
+import com.chengbiao.calculator.utils.LogUtils;
 import com.chengbiao.calculator.utils.SPUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,11 +69,36 @@ public class MainActivity extends AppCompatActivity {
     private TableViewAdapter adapter;
     private   int[] openChoice = {0,0};//0是选择打开时的标志，1是远程文件的书面
     //private String[] name={"序号","项目名称","计量单位","数量","综合单价"};
+
+
+    private CheckModelService.CheckModelBinder  myBinder;
+
+    private ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            myBinder = (CheckModelService.CheckModelBinder) service;
+            myBinder.startCheck();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        unbindService(connection);
+        super.onDestroy();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iniWidget();//初始化控件
+        MyApplication.getApplication().setMainActivity(this);
+        bindService(new Intent(this,CheckModelService.class),connection,BIND_AUTO_CREATE);
         openModel(true);
 ////        if (isHaveModel())
 ////        {
@@ -169,33 +203,22 @@ public class MainActivity extends AppCompatActivity {
 
     /****
      * 打开模板，并加载数据
+     * isDefault true 打开默认 false 选择打开
      */
     public void openModel(boolean isDefault) {
         String filepath=modelPath;
         //= /data/user/0/packname/files
         Log.i("openChoice", "onCreate: " + openChoice[0]);
         if(isDefault){
-            File file=new File(filepath);
-            if(!file.exists()||file.list().length==0){
-                file.mkdirs();
-                try {
-                    InputStream inputStream=getResources().getAssets().open("model/model_0.xml") ;
-                    File file1=new File(filepath,"model_0.xml");
-                    FileOutputStream fileOutputStream=new FileOutputStream(file1);
-                    byte[] by = new byte[1024];
-                    int len =0;
-                    while((len = inputStream.read(by)) != -1){
-                        fileOutputStream.write(by,0,len);
-                    }
-                    fileOutputStream.flush();
-                    inputStream.close();
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if(!SPUtils.getInstance().getBoolean("isIniDefaultFile")){
+                Toast.makeText(this,"欢迎您首次使用，请请耐心等待应用环境配置...",Toast.LENGTH_SHORT).show();
+                File file=new File(filepath);
+                if(!file.exists()||file.list().length==0){
+                    file.mkdirs();
+                    iniDefualtFile("model_0.xml");
+                    iniDefualtFile("update.txt");
                 }
-                finally {
-
-                }
+                SPUtils.getInstance().put("isIniDefaultFile",true);
             }
             openChoice[0]=0;
             iniData();
@@ -207,11 +230,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void iniDefualtFile(String fileName){
+        try {
+            InputStream inputStream=getResources().getAssets().open("model/"+fileName) ;
+            File file1=new File(modelPath,fileName);
+            FileOutputStream fileOutputStream=new FileOutputStream(file1);
+            byte[] by = new byte[1024];
+            int len =0;
+            while((len = inputStream.read(by)) != -1){
+                fileOutputStream.write(by,0,len);
+            }
+            fileOutputStream.flush();
+            inputStream.close();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+
+        }
+    }
     /***
      * 是否存在model
+     * modelPath 内部文件路径
      * **/
-    private String modelPath =MyApplication.getFileDir();//MyApplication.getCachePath() + File.separator + "Model";
-
+    private String modelPath =MyApplication.getFileDir();
     public boolean isHaveModel() {
         File file = new File(modelPath);
         if (!file.exists())
@@ -219,16 +262,19 @@ public class MainActivity extends AppCompatActivity {
             file.mkdirs();
         }
         else if (file.listFiles().length != 0)
+        {
             return true;
+        }
         return false;
     }
 
     /****
      *
      * 获取远程文件夹下文件数目，并显示下载多选按钮
+     * isDownload true 下载 false 更新
      */
     private ArrayList<String> remoteFileList=new ArrayList();
-    public void getRemoteFileSize(){
+    public void getRemoteFileSize(final boolean isDownload){
         remoteFileList.clear();
         final ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.setTitle("加载中...");
@@ -243,7 +289,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             progressDialog.dismiss();
-                            Common.downloadDialogModelChoice(MainActivity.this, openChoice[1],remoteFileList);
+                            //todo   openChoice[1]-1 文件夹下有一个是更新文件
+                            Common.downloadDialogModelChoice(MainActivity.this, openChoice[1]-1,remoteFileList,isDownload);
                         }
                     });
                 } catch (Exception e) {
@@ -396,7 +443,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    getRemoteFileSize();
+                    getRemoteFileSize(true);
                 }
             });
         }
@@ -523,7 +570,7 @@ public class MainActivity extends AppCompatActivity {
                     openExploer(1);
                     break;
                 case R.id.dowmLoadModel:
-                    getRemoteFileSize();
+                    getRemoteFileSize(true);
                     // Common.downloadDialogModelChoice(MainActivity.this,openChoice[1]);
                     break;
                 case R.id.nav_save:

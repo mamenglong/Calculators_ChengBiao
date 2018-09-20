@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.chengbiao.calculator.LoginActivity;
+import com.chengbiao.calculator.MainActivity;
 import com.chengbiao.calculator.RegisterActivity;
 
 import org.litepal.LitePal;
@@ -25,7 +26,7 @@ public class MyApplication extends Application {
     private static MyApplication application;
     private LoginActivity loginActivity;
     private RegisterActivity registerActivity;
-
+    private MainActivity mainActivity;
     public static MyApplication getApplication() {
         return application;
     }
@@ -85,5 +86,13 @@ public class MyApplication extends Application {
 
     public void setRegisterActivity(RegisterActivity registerActivity) {
         this.registerActivity = registerActivity;
+    }
+
+    public MainActivity getMainActivity() {
+        return mainActivity;
+    }
+
+    public void setMainActivity(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
     }
 }

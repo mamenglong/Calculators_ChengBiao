@@ -1,4 +1,4 @@
-package com.chengbiao.calculator.update;
+package com.chengbiao.calculator.update.version;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

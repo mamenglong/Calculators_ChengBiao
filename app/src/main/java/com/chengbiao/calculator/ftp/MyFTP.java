@@ -208,7 +208,9 @@ public class MyFTP {
                                 if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
                                     Log.i(TAG, "-----xiazai--successful");
                                     if(fileNameList.indexOf(fileName)==(fileNameList.size()-1))
-                                         pd6.dismiss();
+                                    {
+                                        pd6.dismiss();
+                                    }
                                     Toast.makeText(context,"下载完成！",Toast.LENGTH_SHORT).show();
                                 } else if(currentStep.equals(MyFTP.FTP_DOWN_LOADING)){
                                     Log.i(TAG, "-----xiazai---"+downProcess + "%");

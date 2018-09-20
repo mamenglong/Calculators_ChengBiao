@@ -299,7 +299,7 @@ public class FTP {
         }
 
         // 进度
-        long step = serverSize / 100;
+        long step = serverSize /100;
         long process = 0;
         long currentSize = 0;
         // 开始准备下载文件
@@ -335,7 +335,6 @@ public class FTP {
 
         return;
     }
-
     // -------------------------------------------------------文件删除方法------------------------------------------------
 
     /**
