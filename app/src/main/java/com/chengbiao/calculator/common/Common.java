@@ -15,6 +15,8 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ import com.chengbiao.calculator.MainActivity;
 import com.chengbiao.calculator.R;
 import com.chengbiao.calculator.adapter.ProjectOne;
 import com.chengbiao.calculator.ftp.MyFTP;
+import com.chengbiao.calculator.update.CheckUpdate;
+import com.chengbiao.calculator.utils.SPUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlSerializer;
@@ -98,20 +102,39 @@ public class Common {
         AlertDialog dialog = builder.create();
         View view = View.inflate(mContext, R.layout.dialog_about_infor, null);
         Button button=view.findViewById(R.id.check_update);
-        TextView tips=view.findViewById(R.id.tips);
-        tips.setText("测试测试手册！ヾ(=･ω･=)oヾ(=･ω･=)o");
+        TextView version=view.findViewById(R.id.version);
+        try {
+            version.setText("版本号："+mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName+"  ");
+        } catch (PackageManager.NameNotFoundException e) {
+            version.setText("null");
+            e.printStackTrace();
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,"已是最新！(*/ω＼*)",Toast.LENGTH_SHORT).show();
+                CheckUpdate.checkUpdate(mContext);
+               // Toast.makeText(mContext,"已是最新！(*/ω＼*)",Toast.LENGTH_SHORT).show();
                 //虽然这里的参数是AlertDialog.Builder(Context context)但我们不能使用getApplicationContext()获得的Context,而必须使用Activity.this,因为只有一个Activity才能添加一个窗体。
             }
         });
+        WebView webView=view.findViewById(R.id.webView);
+        webView.getSettings().setJavaScriptEnabled(true);//启用javascript支持
+        //添加一个js交互接口，方便html布局文件中的javascript代码能与后台java代码直接交互访问
+        webView.addJavascriptInterface(new WebPlugin() , "WebPlugin");//new类名，交互访问时使用的别名
+        webView.loadUrl("file:///android_asset/about.html");//加载本地的html布局文件
+        //其实可以把这个html布局文件放在公网中，这样方便随时更新维护  例如 webview.loadUrl("www.xxxx.com/index.html");
         dialog.setView(view,0,0,0,0);// 设置边距为0,保证在2.x的版本上运行没问题
-
         dialog.show();
     }
-
+    /**
+     * 插件类，在html的js里面直接调用
+     */
+    private static class WebPlugin {
+        @JavascriptInterface
+        public String test() {
+            return "something";
+        }
+    }
     /***
      * qq联系我
      * @param activity
@@ -137,17 +160,20 @@ public class Common {
             @Override
             public void onClick(View v) {
                 //新建一个File，传入文件夹目录
-                File filePath = new File(Environment.getExternalStorageDirectory()+File.separator+"ChengBiaoCache");
+                String filePath=MyApplication.getCachePath()+"/"+ SPUtils.getInstance().getString("userName");
+                File file = new File(filePath);
                 //判断文件夹是否存在，如果不存在就创建，否则不创建
-                if (!filePath.exists()) {
+                if (!file.exists()) {
                     //通过file的mkdirs()方法创建<span style="color:#FF0000;">目录中包含却不存在</span>的文件夹
-                    filePath.mkdirs();
+                    file.mkdirs();
                 }
-                if(saveXML(list,fileName.getText().toString())) {
+                if(saveXML(list,fileName.getText().toString(),filePath)) {
                     Toast.makeText(mContext, "保存成功！", Toast.LENGTH_SHORT).show();
                 }
                 else
+                {
                     Toast.makeText(mContext,"保存失败！",Toast.LENGTH_SHORT).show();
+                }
                 dialog.dismiss();
             }//onclick
         });//LISTNNER
@@ -168,18 +194,11 @@ public class Common {
      *
      * @param list
      */
-    public static boolean saveXML(List<ProjectOne> list,String fileName ) {
+    public static boolean saveXML(List<ProjectOne> list,String fileName,String filePath ) {
         boolean result=false;
         // list.add(new ProjectOne("序号","项目名称","计量单位","数量","综合单价","点击各项项目名称显示描述"));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         Date date = new Date(System.currentTimeMillis());
-        //新建一个File，传入文件夹目录
-        File filePath = new File(Environment.getExternalStorageDirectory()+File.separator+"ChengBiaoCache");
-        //判断文件夹是否存在，如果不存在就创建，否则不创建
-        if (!filePath.exists()) {
-            //通过file的mkdirs()方法创建<span style="color:#FF0000;">目录中包含却不存在</span>的文件夹
-            filePath.mkdirs();
-        }
         try {
             if(fileName!=null&&fileName!="")
                 fileName=simpleDateFormat.format(date)+fileName+".xml";
@@ -376,9 +395,9 @@ public class Common {
      */
     public static void downloadDialogModelChoice(final Context context, int fileSize, final ArrayList<String>list) {
         Log.i("ftp", "fileSize="+fileSize);
-        final String item[] = context.getResources().getStringArray(R.array.model);//{"JAVA", "C++", "JavaScript", "MySQL"};
-        final boolean selected[] = new boolean[fileSize];
-        final String items[]=new String[fileSize];
+        final String[] item = context.getResources().getStringArray(R.array.model);
+        final boolean[] selected = new boolean[fileSize];
+        final String[] items=new String[fileSize];
         while (fileSize>0){
             selected[0]=true;
             items[fileSize-1]=item[fileSize-1];

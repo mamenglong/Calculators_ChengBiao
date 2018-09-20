@@ -15,19 +15,18 @@
             android:icon="@drawable/nav_history"
             android:title="历史记录"
             />
-        <item android:id="@+id/uploadToServer"
-            android:title="上传服务器"
-            android:icon="@drawable/nav_upload"/>
         <item android:id="@+id/dowmLoadModel"
             android:title="下载模板"
             android:icon="@drawable/nav_download"/>
-
+        <item android:id="@+id/uploadToServer"
+            android:title="上传服务器"
+            android:icon="@drawable/nav_upload"/>
     </group>
     <item android:title="关于">
         <menu>
-            <item android:icon="@drawable/nav_qq"
-                android:id="@+id/contactMe"
-                android:title="联系客服"/>
+            <!--<item android:icon="@drawable/nav_qq"-->
+                <!--android:id="@+id/contactMe"-->
+                <!--android:title="联系客服"/>-->
             <item android:id="@+id/about"
                 android:icon="@drawable/nav_about"
                 android:title="关于"/>

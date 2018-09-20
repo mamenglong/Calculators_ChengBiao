@@ -13,6 +13,7 @@ import com.chengbiao.calculator.MainActivity;
 import com.chengbiao.calculator.R;
 import com.chengbiao.calculator.common.Common;
 import com.chengbiao.calculator.common.MyApplication;
+import com.chengbiao.calculator.utils.SPUtils;
 
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -87,7 +88,7 @@ public class MyFTP {
                 Looper.prepare();
                 try {
                     //单文件上传
-                    new FTP().uploadSingleFile(file, "/gh",new FTP.UploadProgressListener(){
+                    new FTP().uploadSingleFile(file, "/gh/"+ SPUtils.getInstance().getString("userName"),new FTP.UploadProgressListener(){
                         @Override
                         public void onUploadProgress(String currentStep,long uploadSize,File file) {
                             // TODO Auto-generated method stub
@@ -199,7 +200,7 @@ public class MyFTP {
                     try {
                         //单文件下载
 //                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
-                        new FTP().downloadSingleFile(remotePath,MyApplication.getCachePath()+"/Model/",fileName,new FTP.DownLoadProgressListener(){
+                        new FTP().downloadSingleFile(remotePath,MyApplication.getFileDir(),fileName,new FTP.DownLoadProgressListener(){
                             @Override
                             public void onDownLoadProgress(String currentStep, long downProcess, File file) {
                                 Log.i(TAG, currentStep);

@@ -5,31 +5,34 @@
     android:orientation="vertical"
     android:id="@+id/dialog_about_infor"
     android:layout_marginTop="50dp"
-    android:layout_height="240dp">
-
+    android:layout_height="280dp">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="260dp">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-
+        android:layout_height="40dp"
+        android:id="@+id/title"
+        android:gravity="center"
         android:text="成标软件"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:textStyle="bold" />
-    <TextView
-
+    <WebView
+        android:layout_below="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:id="@+id/webView"
+        android:layout_height="@dimen/dp_200"
+        />
+    <TextView
+        android:id="@+id/version"
+        android:layout_below="@+id/webView"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="@dimen/dp_20"
         android:textColor="@color/versionColor"
         android:text="@string/version"/>
-    <TextView
-        android:text="tips"
-        android:gravity="center_horizontal"
-        android:textColor="@color/tipsColor"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-    <TextView
-        android:id="@+id/tips"
-        android:layout_width="match_parent"
-        android:layout_height="100dp" />
+</RelativeLayout>
+
     <Button
         android:id="@+id/check_update"
         android:textAlignment="center"

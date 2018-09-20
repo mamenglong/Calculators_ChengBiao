@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title=""
-        android:visible="false"/>
-    <item android:title="@string/backup"
-        android:id="@+id/backup"
-        android:icon="@drawable/ic_backup"
-        app:showAsAction="always"/>
-    <item android:title="@string/delete"
-        android:id="@+id/delete"
-        android:icon="@drawable/ic_delete"
-        app:showAsAction="ifRoom"/>
-    <item android:title="@string/setting"
-        android:id="@+id/setting"
-        android:icon="@drawable/ic_settings"
+    <group android:id="@+id/function">
+    <item android:title="切换用户"
+         android:id="@+id/changeUser"/>
+    <item android:title="计算"
+        android:id="@+id/toolbar_count"
+        android:icon="@drawable/nav_bottom_count"
         app:showAsAction="never"/>
+    <item android:title="保存"
+        android:id="@+id/toolbar_save"
+        android:icon="@drawable/nav_bottom_save"
+        app:showAsAction="never"/>
+    <item android:title="清空"
+        android:id="@+id/toolbar_clear"
+        android:icon="@drawable/nav_bottom_clear"
+        app:showAsAction="never"/>
+    </group>
 </menu>

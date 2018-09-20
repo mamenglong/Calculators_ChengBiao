@@ -49,10 +49,15 @@ public class FTP {
     private FTPClient ftpClient;
 
     public FTP() {
-        this.hostName = "182.92.239.46";
+//        this.hostName = "182.92.239.46";
+//        this.serverPort = 21;
+//        this.userName = "byw1278120001";
+//        this.password = "zhanglei904";
+//
+        this.hostName = "118.89.112.146";
         this.serverPort = 21;
-        this.userName = "byw1278120001";
-        this.password = "zhanglei904";
+        this.userName = "mml";
+        this.password = "mml";
         this.ftpClient = new FTPClient();
 //        this.hostName = "192.168.1.167";
 //        this.serverPort = 21;
@@ -280,7 +285,7 @@ public class FTP {
             mkFile.mkdirs();
         }
 
-        localPath = localPath + fileName;
+        localPath = localPath+File.separator + fileName;
         // 接着判断下载的文件是否能断点下载
         long serverSize = files[0].getSize(); // 获取远程文件的长度
         File localFile = new File(localPath);

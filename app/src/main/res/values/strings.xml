@@ -1,4 +1,23 @@
 <resources>
+    <!-- Strings related to login -->
+    <string name="prompt_email">用户名</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登陆</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This userName is invalid,at least 5 words!</string>
+    <string name="error_invalid_password">This password is less than 6 words!</string>
+    <string name="error_incorrect_password">This password is incorrect or User is not exist！</string>
+    <string name="error_field_required">此处不能为空</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_register">注册</string>
+    <string name="title_activity_register">Register</string>
+    <string name="baseURL">http://118.89.112.146:8011/api/</string>
+    <string name="error_invalid_password_null">密码不能为空</string>
+    <string name="error_invalid_userName_null">用户名不能为空</string>
+
+
     <string name="app_name">成标计算器</string>
     <string name="backup">返回</string>
     <string name="setting">设置</string>
@@ -11,7 +30,12 @@
     <string name="qq_number">1519269558</string>
     <string name="version">版本1.0</string>
     <string name="check_update">检查更新</string>
-<string-array name="model">
+    <string name="changeUser">切换用户</string>
+    <string name="updateUrl">http://118.89.112.146:8008/app-debug.apk</string>
+    <string name="updateinforurl">http://118.89.112.146:8008/CheckUpdate.asmx/CheckUpdateInfor</string>
+    <string name="baseUrl">http://118.89.112.146:8008/</string>
+    <string name="title_activity_login">登陆</string>
+    <string-array name="model">
     <item>模板一</item>
     <item>模板二</item>
     <item>模板三</item>
