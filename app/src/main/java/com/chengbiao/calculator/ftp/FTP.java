@@ -7,6 +7,8 @@ package com.chengbiao.calculator.ftp;
  */
 
 
+import com.chengbiao.calculator.utils.LogUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -225,7 +228,7 @@ public class FTP {
             if (files.length != 0) {
                 num=files.length;
                 for (FTPFile F:files
-                     ) {
+                        ) {
                     list.add(F.getName());
                 }
             }
@@ -265,17 +268,17 @@ public class FTP {
         // 打开FTP服务
         try {
             this.openConnect();
-            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_SUCCESSS, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_SUCCESSS, 0,fileName, null);
         } catch (IOException e1) {
             e1.printStackTrace();
-            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_FAIL, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_FAIL, 0,fileName, null);
             return;
         }
 
         // 先判断服务器文件是否存在
         FTPFile[] files = ftpClient.listFiles(serverPath);
         if (files.length == 0) {
-            listener.onDownLoadProgress(MyFTP.FTP_FILE_NOTEXISTS, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_FILE_NOTEXISTS, 0,fileName, null);
             return;
         }
 
@@ -299,39 +302,124 @@ public class FTP {
         }
 
         // 进度
-        long step = serverSize /100;
+        // long step = (serverSize+100)/100;
         long process = 0;
         long currentSize = 0;
         // 开始准备下载文件
+        RandomAccessFile raf = new RandomAccessFile(localFile, "rwd");
+        raf.seek(raf.length());
         OutputStream out = new FileOutputStream(localFile, true);
-        ftpClient.setRestartOffset(localSize);
+        ftpClient.setRestartOffset(0);//不进行断点续传
         InputStream input = ftpClient.retrieveFileStream(serverPath);
+        LogUtils.i("FTP","allsize:"+serverSize);
         byte[] b = new byte[1024];
         int length = 0;
         while ((length = input.read(b)) != -1) {
-            out.write(b, 0, length);
+            LogUtils.i("FTP"," @@@currentSize:"+currentSize+"    length:"+length);
+            raf.write(b,0,length);
+            //out.write(b, 0, length);
             currentSize = currentSize + length;
-            if (currentSize / step != process) {
-                process = currentSize / step;
+            if (currentSize*100  / serverSize != process) {
+                process = currentSize*100/ serverSize;
                 if (process % 5 == 0) { //每隔%5的进度返回一次
-                    listener.onDownLoadProgress(MyFTP.FTP_DOWN_LOADING, process, null);
+                    listener.onDownLoadProgress(MyFTP.FTP_DOWN_LOADING, process,fileName, null);
                 }
             }
         }
-        out.flush();
-        out.close();
+        raf.close();
+//        out.flush();
+//        out.close();
         input.close();
 
         // 此方法是来确保流处理完毕，如果没有此方法，可能会造成现程序死掉
         if (ftpClient.completePendingCommand()) {
-            listener.onDownLoadProgress(MyFTP.FTP_DOWN_SUCCESS, 0, new File(localPath));
+            listener.onDownLoadProgress(MyFTP.FTP_DOWN_SUCCESS, 0,fileName, new File(localPath));
         } else {
-            listener.onDownLoadProgress(MyFTP.FTP_DOWN_FAIL, 0, null);
+            listener.onDownLoadProgress(MyFTP.FTP_DOWN_FAIL, 0, fileName,null);
         }
 
         // 下载完成之后关闭连接
         this.closeConnect();
-        listener.onDownLoadProgress(MyFTP.FTP_DISCONNECT_SUCCESS, 0, null);
+        listener.onDownLoadProgress(MyFTP.FTP_DISCONNECT_SUCCESS, 0,fileName, null);
+
+        return;
+    }
+
+    public void downloadMutiFile(String serverPath, String localPath1, ArrayList<String>fileNameList, DownLoadProgressListener listener)
+            throws Exception {
+        // 打开FTP服务
+        try {
+            this.openConnect();
+            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_SUCCESSS, 0,"", null);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            listener.onDownLoadProgress(MyFTP.FTP_CONNECT_FAIL, 0, "",null);
+            return;
+        }
+
+        for (String fileName:fileNameList
+                ) {
+            String localPath=localPath1;
+            // 先判断服务器文件是否存在
+            FTPFile[] files = ftpClient.listFiles(serverPath+fileName);
+            if (files.length == 0) {
+                listener.onDownLoadProgress(MyFTP.FTP_FILE_NOTEXISTS, 0, fileName,null);
+                return;
+            }
+
+            //创建本地文件夹
+            File mkFile = new File(localPath);
+            if (!mkFile.exists()) {
+                mkFile.mkdirs();
+            }
+
+            localPath = localPath+File.separator + fileName;
+            // 接着判断下载的文件是否能断点下载
+            long serverSize = files[0].getSize(); // 获取远程文件的长度
+            File localFile = new File(localPath);
+            long localSize = 0;
+            if (localFile.exists()) {
+                localSize = localFile.length(); // 如果本地文件存在，获取本地文件的长度
+                if (localSize >= serverSize) {
+                    File file = new File(localPath);
+                    file.delete();
+                }
+            }
+
+            // 进度
+            // long step = (serverSize+100)/100;
+            long process = 0;
+            long currentSize = 0;
+            // 开始准备下载文件
+            OutputStream out = new FileOutputStream(localFile, true);
+            ftpClient.setRestartOffset(localSize);
+            InputStream input = ftpClient.retrieveFileStream(serverPath+fileName);
+            byte[] b = new byte[1024];
+            int length = 0;
+            while ((length = input.read(b)) != -1) {
+                out.write(b, 0, length);
+                currentSize = currentSize + length;
+                if (currentSize*100  / serverSize != process) {
+                    process = currentSize*100/ serverSize;
+                    if (process % 5 == 0) { //每隔%5的进度返回一次
+                        listener.onDownLoadProgress(MyFTP.FTP_DOWN_LOADING, process,fileName, null);
+                    }
+                }
+            }
+            out.flush();
+            out.close();
+            input.close();
+
+            // 此方法是来确保流处理完毕，如果没有此方法，可能会造成现程序死掉
+            if (ftpClient.completePendingCommand()) {
+                listener.onDownLoadProgress(MyFTP.FTP_DOWN_SUCCESS, 0,fileName, new File(localPath));
+            } else {
+                listener.onDownLoadProgress(MyFTP.FTP_DOWN_FAIL, 0, fileName,null);
+            }
+        }
+        // 下载完成之后关闭连接
+        this.closeConnect();
+        listener.onDownLoadProgress(MyFTP.FTP_DISCONNECT_SUCCESS, 0, "",null);
 
         return;
     }
@@ -451,7 +539,7 @@ public class FTP {
      * 下载进度监听
      */
     public interface DownLoadProgressListener {
-        public void onDownLoadProgress(String currentStep, long downProcess, File file);
+        public void onDownLoadProgress(String currentStep, long downProcess, String fileName,File file);
     }
 
     /*

@@ -24,6 +24,7 @@ import com.chengbiao.calculator.adapter.ProjectOne;
 import com.chengbiao.calculator.ftp.MyFTP;
 import com.chengbiao.calculator.update.model.CheckModelService;
 import com.chengbiao.calculator.update.version.CheckUpdate;
+import com.chengbiao.calculator.utils.LogUtils;
 import com.chengbiao.calculator.utils.SPUtils;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -450,37 +451,44 @@ public class Common {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 // android会自动根据你选择的改变selected数组的值。
-                ArrayList<String> temlist=new ArrayList<>();
+                ArrayList<String> temlist = new ArrayList<>();
                 for (int i = 0; i < selected.length; i++) {
-                    Log.i("md", "onClick: "+selected[i]);
-                    if(selected[i]){
+                    Log.i("md", "onClick: " + selected[i]);
+                    if (selected[i]) {
                         //todo 服务器路径修改处
                         temlist.add(list.get(i));
-                        }
-                }
-                new MyFTP().ftpMutiDowmload(context,"/gh/Model/",temlist);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        File reupdate=new File(CheckModelService.exlocalPath+"reupdate.txt");
-                        File update=new File(CheckModelService.localPath+"update.txt");
-                        InputStreamReader reupdateReader = null; // 建立一个输入流对象reader
-                        try {
-                            reupdateReader = new InputStreamReader( new FileInputStream(reupdate));
-                            BufferedReader rebr = new BufferedReader(reupdateReader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
-                            String reupdateline="";
-                            reupdateline=rebr.readLine();
-                            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(update));
-                            osw.write(reupdateline);
-                            osw.flush();
-                            osw.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
-                }).start();
+                }
+                if (temlist.size() != 0) {
+                    new MyFTP().ftpMutiDowmload(context, "/gh/Model/", temlist);
+                    File reupdate = new File(CheckModelService.exlocalPath + "reupdate.txt");
+                    File update = new File(CheckModelService.localPath + "update.txt");
+                    InputStreamReader reupdateReader = null; // 建立一个输入流对象reader
+                    try {
+                        reupdateReader = new InputStreamReader(new FileInputStream(reupdate));
+                        BufferedReader rebr = new BufferedReader(reupdateReader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
+                        String reupdateline = "";
+                        reupdateline = rebr.readLine();
+                        if (reupdateline == null) {
+                            reupdateline = "默认";
+                        }
+                        OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(update));
+                        osw.write(reupdateline);
+                        osw.flush();
+                        osw.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        LogUtils.i("Exception", e.toString());
+                    }
+                }
+                else
+                {
+                    new  AlertDialog.Builder(context)
+                            .setPositiveButton("请选择或取消" ,  null )
+                            .show();
+                }
             }
         });
         }

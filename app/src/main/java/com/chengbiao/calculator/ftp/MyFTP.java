@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
@@ -154,7 +155,7 @@ public class MyFTP {
 //                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
                     new FTP().downloadSingleFile(serverPath,MyApplication.getCachePath()+"/Model/",fileName,new FTP.DownLoadProgressListener(){
                         @Override
-                        public void onDownLoadProgress(String currentStep, long downProcess, File file) {
+                        public void onDownLoadProgress(String currentStep, long downProcess,String fileName, File file) {
                             Log.i(TAG, currentStep);
                             pd6.setProgress((int)(100*downProcess));
                             if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
@@ -186,49 +187,137 @@ public class MyFTP {
         pd6.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
         pd6.setIcon(R.mipmap.ic_launcher);// 设置提示的title的图标，默认是没有的
         pd6.setTitle(fileNameList.size()+"个文件下载中...");
-        pd6.setMax(100*fileNameList.size());
+        final int allProcess=100*fileNameList.size();
+        pd6.setMax(allProcess);
         //  String filePath=getFileCachePath()+ File.separator+"20180409.xml";
         pd6.show();
         for (final String fileName:fileNameList
-             ) {
-          final String remotePath=serverPath+fileName;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Looper.prepare();
-                    // 下载
-                    try {
-                        //单文件下载
-//                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
-                        new FTP().downloadSingleFile(remotePath,MyApplication.getFileDir(),fileName,new FTP.DownLoadProgressListener(){
-                            @Override
-                            public void onDownLoadProgress(String currentStep, long downProcess, File file) {
-                                Log.i(TAG, currentStep);
-                                pd6.setProgress((int)(100*downProcess*(fileNameList.indexOf(fileName)+1)));
-                                if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
-                                    Log.i(TAG, "-----xiazai--successful");
-                                    if(fileNameList.indexOf(fileName)==(fileNameList.size()-1))
-                                    {
-                                        pd6.dismiss();
+                ) {
+            try {
+              new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new FTP().downloadSingleFile(serverPath+fileName,MyApplication.getFileDir(),fileName,new FTP.DownLoadProgressListener(){
+                                @Override
+                                public void onDownLoadProgress(String currentStep, long downProcess,String fileName, File file) {
+                                    Log.i(TAG, fileName+"---"+currentStep+"###"+downProcess);
+                                    if(fileName!="") {
+                                        final int index = fileNameList.indexOf(fileName);
+                                        int currentProcess = (int) downProcess + 100 * index;
+                                        pd6.setProgress(currentProcess);
+                                        if (currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)) {
+                                            Log.i(TAG, index + "...." + fileName + "-----xiazai--successful");
+                                            if (fileNameList.indexOf(fileName) == (fileNameList.size() - 1)) {
+                                                pd6.setProgress(0);
+                                                pd6.dismiss();
+                                            }
+                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(context, "第" + (index + 1) + "个下载完成！", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else if (currentStep.equals(MyFTP.FTP_DOWN_LOADING)) {
+                                            Log.i(TAG, index + "...." + fileName + "-----xiazai---" + downProcess + "%");
+                                            // pd6.setMessage("下载进度-----"+downProcess/fileNameList.size() + "%");
+                                            pd6.setMessage(index + "下载进度-----" + currentProcess / allProcess + "%");
+                                        }
+
                                     }
-                                    Toast.makeText(context,"下载完成！",Toast.LENGTH_SHORT).show();
-                                } else if(currentStep.equals(MyFTP.FTP_DOWN_LOADING)){
-                                    Log.i(TAG, "-----xiazai---"+downProcess + "%");
-                                    pd6.setMessage("下载进度-----"+downProcess/fileNameList.size() + "%");
                                 }
-                            }
-
-                        });
-
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-Looper.loop();
-                }
-            }).start();
-
+                }).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+//        new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Looper.prepare();
+//                    // 下载
+//                    try {
+//                        //单文件下载
+////                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
+//                        new FTP().downloadMutiFile(serverPath,MyApplication.getFileDir(),fileNameList,new FTP.DownLoadProgressListener(){
+//                            @Override
+//                            public void onDownLoadProgress(String currentStep, long downProcess,String fileName, File file) {
+//                                Log.i(TAG, currentStep);
+//                                if(fileName!="") {
+//                                    int index = fileNameList.indexOf(fileName);
+//                                    int currentProcess = (int) downProcess + 100 * index;
+//                                    pd6.setProgress(currentProcess);
+//                                    if (currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)) {
+//                                        Log.i(TAG, index + "...." + fileName + "-----xiazai--successful");
+//                                        if (fileNameList.indexOf(fileName) == (fileNameList.size() - 1)) {
+//                                            pd6.setProgress(0);
+//                                            pd6.dismiss();
+//                                        }
+//                                        Toast.makeText(context, "第" + (index + 1) + "个下载完成！", Toast.LENGTH_SHORT).show();
+//                                    } else if (currentStep.equals(MyFTP.FTP_DOWN_LOADING)) {
+//                                        Log.i(TAG, index + "...." + fileName + "-----xiazai---" + downProcess + "%");
+//                                        // pd6.setMessage("下载进度-----"+downProcess/fileNameList.size() + "%");
+//                                        pd6.setMessage(index + "下载进度-----" + currentProcess / allProcess + "%");
+//                                    }
+//
+//                                }
+//                            }
+//                        });
+//
+//                    } catch (Exception e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//        for (final String fileName:fileNameList
+//             ) {
+//          final String remotePath=serverPath+fileName;
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Looper.prepare();
+//                    // 下载
+//                    try {
+//                        //单文件下载
+////                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
+//                        new FTP().downloadSingleFile(remotePath,MyApplication.getFileDir(),fileName,new FTP.DownLoadProgressListener(){
+//                            @Override
+//                            public void onDownLoadProgress(String currentStep, long downProcess, File file) {
+//                                Log.i(TAG, currentStep);
+//                                int index=fileNameList.indexOf(fileName);
+//                                int currentProcess=(int)downProcess+100*index;
+//                                pd6.setProgress(currentProcess);
+//                                if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
+//                                    Log.i(TAG, index+"...."+fileName+"-----xiazai--successful");
+//                                    if(fileNameList.indexOf(fileName)==(fileNameList.size()-1))
+//                                    {
+//                                        pd6.setProgress(currentProcess);
+//                                        pd6.dismiss();
+//                                    }
+//                                    Toast.makeText(context,"第"+(index+1)+"个下载完成！",Toast.LENGTH_SHORT).show();
+//                                } else if(currentStep.equals(MyFTP.FTP_DOWN_LOADING)){
+//                                    Log.i(TAG, index+"...."+fileName+"-----xiazai---"+downProcess + "%");
+//                                   // pd6.setMessage("下载进度-----"+downProcess/fileNameList.size() + "%");
+//                                    pd6.setMessage(index+"下载进度-----"+currentProcess/allProcess+ "%");
+//                                }
+//                            }
+//
+//                        });
+//
+//                    } catch (Exception e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//
+//        }
 
     }
 
@@ -270,7 +359,7 @@ Looper.loop();
 
 
     public void getFileSize(final String severPath, final int[] num , ArrayList<String> list)  {
-       num[1] = new FTP().getFileList(severPath,list);
+        num[1] = new FTP().getFileList(severPath,list);
     }
 
 }

@@ -28,20 +28,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
 
 public class CheckModelService extends Service {
     public static final String TAG = "CheckModelService";
     public static String remotePath="/gh/Model/update.txt";
-    public static String localPath= MyApplication.getFileDir();
+    public static String localPath= MyApplication.getFileDir()+File.separator;
     public static String exlocalPath=MyApplication.getCachePath()+"/Model/";
     private DownloadListener listener=new DownloadListener() {
         @Override
         public void onFinish() {
             Toast.makeText(MyApplication.getContext(),"onFinish",Toast.LENGTH_SHORT).show();
-            File update=new File( localPath+File.separator+"update.txt");
-            if(!update.exists())
-            {
-                update.mkdirs();
+            File update=new File( localPath+"update.txt");
+            if(!update.exists()){
+                try {
+                    update.createNewFile();
+                    String content="默认" ;
+                    RandomAccessFile raf = new RandomAccessFile(update, "rwd");
+                    raf.seek(content.length());
+                    raf.write(content.getBytes());
+                    raf.close();
+                } catch (IOException e) {
+                    LogUtils.i("Exception",e.toString());
+                    e.printStackTrace();
+                }
             }
             File reupdate=new File(exlocalPath+"reupdate.txt");
 
@@ -57,16 +67,17 @@ public class CheckModelService extends Service {
                 String reupdateline="";
                 updateline = br.readLine();
                 reupdateline=rebr.readLine();
-                if(updateline.equals(reupdateline))
+                LogUtils.i("...................updateline:"+updateline+"####reupdateline:"+reupdateline);
+                if(updateline!=null&&reupdateline!=null&&updateline.equals(reupdateline))
                 {
                     showToast("无需更新，请放心使用！");
                     LogUtils.i("........................onFINISHequal");
                 }
                 else
                 {
+                    LogUtils.i("....................111....onFINISHnotequal");
                     showToast("发现新模板，请更新！");
                     showDialog();
-                    LogUtils.i("....................111....onFINISHnotequal");
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -126,18 +137,20 @@ public class CheckModelService extends Service {
                     Looper.prepare();
                     try {
                         //单文件下载
-//                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
                         new FTP().downloadSingleFile(remotePath,exlocalPath,"reupdate.txt",new FTP.DownLoadProgressListener(){
                             @Override
-                            public void onDownLoadProgress(String currentStep, long downProcess, File file) {
+                            public void onDownLoadProgress(String currentStep, long downProcess,String fileName, File file) {
                                 Log.i(TAG, currentStep);
-
                                 if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
-                                    Log.i(TAG, "-----xiazai--successful");
-                                    listener.onFinish();
-                                } else if(currentStep.equals(MyFTP.FTP_DOWN_LOADING)){
-                                    Log.i(TAG, "-----xiazai---"+downProcess + "%");
+                                    Log.i(TAG, fileName+"-----xiazai--successful");
 
+                                } else if(currentStep.equals(MyFTP.FTP_DOWN_LOADING)){
+                                    Log.i(TAG, fileName+"-----xiazai---"+downProcess + "%");
+
+                                }
+                                else if(currentStep.equals(MyFTP.FTP_DISCONNECT_SUCCESS)){
+                                    Log.i(TAG, fileName+"-----FTP_DISCONNECT_SUCCESS ");
+                                    listener.onFinish();
                                 }
                                 else if(currentStep.equals(MyFTP.FTP_DOWN_FAIL)){
                                     listener.onFail();
@@ -160,7 +173,7 @@ public class CheckModelService extends Service {
         new Handler(Looper.getMainLooper()).post(new Runnable(){
             @Override
             public void run(){
-                Toast.makeText(MyApplication.getApplication().getMainActivity(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyApplication.getApplication().getMainActivity(),message,Toast.LENGTH_SHORT).show();
             }
         });
     }

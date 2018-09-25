@@ -457,7 +457,7 @@ public class MainActivity extends AppCompatActivity {
         int fileSize=1;
         String path=MyApplication.getFileDir();
         File file=new File(path);
-        fileSize=file.listFiles().length;
+        fileSize=file.listFiles().length-1;
         Log.i("fileSize", "fileSize="+fileSize);
         final String item[] = getResources().getStringArray(R.array.model);
         //{"模板一", "模板二", "模板三", "模板四"};

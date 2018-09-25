@@ -117,7 +117,7 @@ public class FTPActivity extends AppCompatActivity {
                             new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
 
                                 @Override
-                                public void onDownLoadProgress(String currentStep, long downProcess, File file) {
+                                public void onDownLoadProgress(String currentStep, long downProcess,String fileName, File file) {
                                     Log.i(TAG, currentStep);
                                     if(currentStep.equals(FTPActivity.FTP_DOWN_SUCCESS)){
                                         Log.i(TAG, "-----xiazai--successful");

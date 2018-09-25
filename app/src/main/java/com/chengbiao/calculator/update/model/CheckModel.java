@@ -30,7 +30,7 @@ public class CheckModel {
 //                    new FTP().downloadSingleFile("/fff/ftpTest.docx","/mnt/sdcard/download/","ftpTest.docx",new FTP.DownLoadProgressListener(){
                 new FTP().downloadSingleFile(remotePath,localPath,"reupdate.txt",new FTP.DownLoadProgressListener(){
                     @Override
-                    public void onDownLoadProgress(String currentStep, long downProcess, File file) {
+                    public void onDownLoadProgress(String currentStep, long downProcess, String fileName, File file) {
                         Log.i(TAG, currentStep);
 
                         if(currentStep.equals(MyFTP.FTP_DOWN_SUCCESS)){
